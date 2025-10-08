@@ -13,14 +13,14 @@ class ArabicToRoman
      *
      * @return string The roman number equivalent (e.g. CXXI)
      */
-    public static function transform(int $arabicNumber): string
+    public static function transform(int $arabicNumber): ?string
     {
         $romanNumber = '';
 
         // Complete the function
 
         if ($arabicNumber < 1 || $arabicNumber > 3999) {
-            throw new InvalidArgumentException('Number must be between 1 and 3999');
+            return null;
         }
 
         $map = [
