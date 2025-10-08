@@ -18,6 +18,23 @@ class Bakery
 
         // Complete the function
 
+        foreach ($recipe as $key => $needed) {
+            // Missing ingredient → return 0
+            if (!array_key_exists($key, $ingredients) || $ingredients[$key] < $needed) {
+                return 0;
+            }
+
+            $possible = intdiv($ingredients[$key], $needed);
+
+            if ($numberOfCakes === 0) {
+                // First ingredient → set initial value
+                $numberOfCakes = $possible;
+            } else {
+                // Limit by the smallest possible number of cakes
+                $numberOfCakes = min($numberOfCakes, $possible);
+            }
+        }
+
         return $numberOfCakes;
     }
 }
