@@ -71,10 +71,10 @@ export default {
           userName: userMap[p.userId],
           propertyName: p.name,
           typeName: typeMap[p.typeId],
-          rentedFrom: p.rentedFrom,
-          rentedTo: p.rentedTo,
+          rentedFrom: this.formatDate(p.rentedFrom),
+          rentedTo: this.formatDate(p.rentedTo),
           monthsRented: this.monthsRented(p),
-          itsCurrentlyRented: !!p.rentedFrom && !p.rentedTo,
+          itsCurrentlyRented: !!p.rentedFrom && !p.rentedTo ? '✅' : '❌',
         }));
     },
     monthsRented(property) {
@@ -92,6 +92,21 @@ export default {
       const days = Math.round(totalDays - months * 30.44);
 
       return `${months} mes(es) y ${days} día(s).`;
+    },
+    formatDate(date) {
+      let formatedDate = '';
+      if (date instanceof Date && !Number.isNaN(date)) {
+        formatedDate = (date.toLocaleDateString('es-ES', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }));
+      } else {
+        formatedDate = '';
+      }
+
+      return formatedDate;
     },
   },
 };
