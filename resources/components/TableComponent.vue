@@ -1,7 +1,24 @@
 <template>
   <div id="table-component">
-    Tabla
-    <RowComponent />
+    <table class="w-full border-collapse border text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th
+            class="border px-3 py-2"
+            v-for="(label, index) in tableHeaders"
+            :key="index">
+            {{ label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <RowComponent
+          v-for="(row, index) in tableData"
+          :key="index"
+          :row="row"
+        />
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -29,6 +46,11 @@ export default {
       required: true,
       default: () => [],
     },
+    tableHeaders: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
   },
   data: () => ({
     tableData: [],
@@ -52,13 +74,8 @@ export default {
           rentedFrom: p.rentedFrom,
           rentedTo: p.rentedTo,
           monthsRented: this.monthsRented(p),
-        }))
-        .sort((a, b) => {
-          // Ordena por rentedFrom, los nulos al final
-          if (!a.rentedFrom) return 1;
-          if (!b.rentedFrom) return -1;
-          return a.rentedFrom - b.rentedFrom;
-        });
+          itsCurrentlyRented: !!p.rentedFrom && !p.rentedTo,
+        }));
     },
     monthsRented(property) {
       const { rentedFrom, rentedTo } = property;
