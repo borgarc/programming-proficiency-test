@@ -18,8 +18,6 @@ RUN apk add --no-cache \
   nodejs \
   npm
 
-RUN npm install -g tailwindcss
-
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php
