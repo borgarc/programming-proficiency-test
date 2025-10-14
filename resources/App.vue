@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <TableComponent :users="users" :propertyTypes="propertyTypes" :properties="properties" />
+    <TableComponent
+      :users="users"
+      :propertyTypes="propertyTypes"
+      :properties="properties"
+      :tableHeaders="tableHeaders"
+    />
   </div>
 </template>
 
@@ -17,6 +22,10 @@ export default {
     users,
     propertyTypes,
     properties,
+    tableHeaders: [
+      'User', 'Property', 'Type', 'From', 'To', 'Duration',
+      'Currently Rented',
+    ],
   }),
 };
 </script>
