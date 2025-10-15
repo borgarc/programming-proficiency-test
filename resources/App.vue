@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-50 p-4 md:p-8 flex flex-col items-center">
-    <!-- Filter section -->
+    <!-- Seccion filtros -->
     <div
       class="
         w-full max-w-5xl mb-6 flex flex-col
@@ -8,7 +8,9 @@
         p-4 rounded-xl border border-gray-200
       "
     >
-      <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+      <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto flex-wrap">
+        <DatePickerComponent v-model="selectedFromDate" :label="fromLabel"/>
+        <DatePickerComponent v-model="selectedToDate" :label="toLabel"/>
         <SelectComponent
           v-model="selectedUser"
           :options="mapUsers"
@@ -24,7 +26,7 @@
       </div>
     </div>
 
-    <!-- Table section -->
+    <!-- Seccion tabla -->
     <div class="w-full max-w-5xl bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
       <TableComponent
         :users="users"
@@ -33,6 +35,8 @@
         :tableHeaders="tableHeaders"
         :selectedUser="selectedUser"
         :selectedType="selectedType"
+        :selectedFromDate="selectedFromDate"
+        :selectedToDate="selectedToDate"
       />
     </div>
   </div>
@@ -42,12 +46,14 @@
 import { users, propertyTypes, properties } from '@/mocks/api';
 import TableComponent from '@/components/TableComponent.vue';
 import SelectComponent from '@/components/SelectComponent.vue';
+import DatePickerComponent from '@/components/DatePickerComponent.vue';
 
 export default {
   name: 'App',
   components: {
     TableComponent,
     SelectComponent,
+    DatePickerComponent,
   },
   data: () => ({
     users,
@@ -55,6 +61,10 @@ export default {
     properties,
     selectedUser: 'all',
     selectedType: 'all',
+    selectedFromDate: null,
+    selectedToDate: null,
+    fromLabel: 'Desde',
+    toLabel: 'Hasta',
     tableHeaders: [
       'Usuario', 'Propiedad', 'Tipo', 'Desde', 'Hasta', 'Duracion',
       'Alquilado',
