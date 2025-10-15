@@ -4,7 +4,7 @@
 
     <div class="select-component__wrapper">
       <select v-model="selectedValue" class="select-component__dropdown">
-        <option disabled hidden :value="null">{{ placeholder }}</option>
+        <option value="all">{{ placeholder }}</option>
         <option
           v-for="option in options"
           :key="option.value"
@@ -35,7 +35,7 @@ export default {
   computed: {
     selectedValue: {
       get() {
-        return this.value;
+        return this.value || 'all';
       },
       set(val) {
         this.$emit('input', val);
