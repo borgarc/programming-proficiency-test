@@ -57,20 +57,41 @@ export default {
     selectedType: {
       type: String,
     },
+    selectedFromDate: {
+      type: [Date, String, null],
+      default: null,
+    },
+    selectedToDate: {
+      type: [Date, String, null],
+      default: null,
+    },
   },
   data: () => ({
     tableData: [],
   }),
   mounted() {
     this.formatDataRows();
-    console.log(this.tableData);
   },
   computed: {
     filteredData() {
       return this.tableData.filter((item) => {
         const matchUser = this.selectedUser === 'all' || item.userName === this.selectedUser;
         const matchType = this.selectedType === 'all' || item.typeName === this.selectedType;
-        return matchUser && matchType;
+
+        // Filtro por rango de fechas
+        const from = this.selectedFromDate ? new Date(this.selectedFromDate) : null;
+        const to = this.selectedToDate ? new Date(this.selectedToDate) : null;
+
+        const rentedFrom = item.rentedFrom ? new Date(item.rentedFrom) : null;
+
+        let matchDate = true;
+        if (from && rentedFrom) {
+          matchDate = rentedFrom >= from;
+        }
+        if (matchDate && to && rentedFrom) {
+          matchDate = rentedFrom <= to;
+        }
+        return matchUser && matchType && matchDate;
       });
     },
   },
@@ -86,8 +107,8 @@ export default {
           userName: userMap[p.userId],
           propertyName: p.name,
           typeName: typeMap[p.typeId],
-          rentedFrom: this.formatDate(p.rentedFrom),
-          rentedTo: this.formatDate(p.rentedTo),
+          rentedFrom: p.rentedFrom,
+          rentedTo: p.rentedTo,
           monthsRented: this.monthsRented(p),
           itsCurrentlyRented: !!p.rentedFrom && !p.rentedTo ? '✅' : '❌',
         }));
@@ -107,21 +128,6 @@ export default {
       const days = Math.round(totalDays - months * 30.44);
 
       return `${months} mes(es) y ${days} día(s).`;
-    },
-    formatDate(date) {
-      let formatedDate = '';
-      if (date instanceof Date && !Number.isNaN(date)) {
-        formatedDate = (date.toLocaleDateString('es-ES', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }));
-      } else {
-        formatedDate = '';
-      }
-
-      return formatedDate;
     },
   },
 };
