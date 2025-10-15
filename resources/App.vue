@@ -3,14 +3,22 @@
     <SelectComponent
       v-model="selectedUser"
       :options="mapUsers"
-      placeholder="Filtro por usuarios"
+      placeholder="Todos"
       label="Usuarios"
+    />
+    <SelectComponent
+      v-model="selectedType "
+      :options="mapPropertyTypes"
+      placeholder="Todos"
+      label="Tipos"
     />
     <TableComponent
       :users="users"
       :propertyTypes="propertyTypes"
       :properties="properties"
       :tableHeaders="tableHeaders"
+      :selectedUser="selectedUser"
+      :selectedType="selectedType"
     />
   </div>
 </template>
@@ -30,7 +38,8 @@ export default {
     users,
     propertyTypes,
     properties,
-    selectedUser: null,
+    selectedUser: 'all',
+    selectedType: 'all',
     tableHeaders: [
       'Usuario', 'Propiedad', 'Tipo', 'Desde', 'Hasta', 'Duracion',
       'Alquilado',
@@ -39,10 +48,20 @@ export default {
   }),
   computed: {
     mapUsers() {
-      return this.users.map((u) => ({ value: u.id, label: u.name }));
+      return [
+        ...this.users.map((u) => ({
+          value: u.name,
+          label: u.name,
+        })),
+      ];
     },
     mapPropertyTypes() {
-      return this.propertyTypes.map((p) => ({ value: p.id, label: p.name }));
+      return [
+        ...this.propertyTypes.map((t) => ({
+          value: t.name,
+          label: t.name,
+        })),
+      ];
     },
   },
 };
