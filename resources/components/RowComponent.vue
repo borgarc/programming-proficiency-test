@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td
-      class="border px-3 py-2"
+      class="border px-3 py-2 text-center align-middle"
       v-for="(value, key) in row"
       :key="key"
     >
