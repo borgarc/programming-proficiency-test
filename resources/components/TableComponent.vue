@@ -1,5 +1,5 @@
 <template>
-  <div id="table-component">
+  <div id="table-component" class="overflow-x-auto">
     <table class="w-full border-collapse border text-sm">
       <thead class="bg-gray-100">
         <tr>
@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <RowComponent
-          v-for="(row, index) in tableData"
+          v-for="(row, index) in filteredData"
           :key="index"
           :row="row"
         />
@@ -51,6 +51,12 @@ export default {
       required: true,
       default: () => [],
     },
+    selectedUser: {
+      type: String,
+    },
+    selectedType: {
+      type: String,
+    },
   },
   data: () => ({
     tableData: [],
@@ -58,6 +64,15 @@ export default {
   mounted() {
     this.formatDataRows();
     console.log(this.tableData);
+  },
+  computed: {
+    filteredData() {
+      return this.tableData.filter((item) => {
+        const matchUser = this.selectedUser === 'all' || item.userName === this.selectedUser;
+        const matchType = this.selectedType === 'all' || item.typeName === this.selectedType;
+        return matchUser && matchType;
+      });
+    },
   },
   methods: {
     formatDataRows() {
