@@ -89,5 +89,55 @@ export default {
       ];
     },
   },
+  watch: {
+    // Cada vez que cambie un filtro, actualiza la URL
+    selectedUser() {
+      this.updateQueryParams();
+    },
+    selectedType() {
+      this.updateQueryParams();
+    },
+    selectedFromDate() {
+      this.updateQueryParams();
+    },
+    selectedToDate() {
+      this.updateQueryParams();
+    },
+  },
+  mounted() {
+    this.applyFiltersFromRoute();
+  },
+  methods: {
+    // Carga los filtros desde la URL
+    applyFiltersFromRoute() {
+      const {
+        user,
+        type,
+        from,
+        to,
+      } = this.$route.query;
+
+      if (user) this.selectedUser = user;
+      if (type) this.selectedType = type;
+      if (from) this.selectedFromDate = new Date(from);
+      if (to) this.selectedToDate = new Date(to);
+    },
+
+    // Actualiza los query params del router
+    updateQueryParams() {
+      this.$router.replace({
+        query: {
+          user: this.selectedUser !== 'all' ? this.selectedUser : undefined,
+          type: this.selectedType !== 'all' ? this.selectedType : undefined,
+          from: this.selectedFromDate
+            ? this.selectedFromDate.toISOString().split('T')[0]
+            : undefined,
+          to: this.selectedToDate
+            ? this.selectedToDate.toISOString().split('T')[0]
+            : undefined,
+        },
+      });
+    },
+  },
 };
 </script>
