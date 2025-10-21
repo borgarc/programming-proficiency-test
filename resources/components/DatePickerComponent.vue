@@ -133,7 +133,7 @@ export default {
     },
   },
   mounted() {
-    // Close calendar when clicking outside
+    // Cerrar calendario cuando se clicke fuera
     document.addEventListener('click', this.handleClickOutside);
   },
   beforeDestroy() {

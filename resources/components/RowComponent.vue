@@ -24,7 +24,7 @@ export default {
   data: () => ({
   }),
   methods: {
-    // 👇 Detecta si es fecha y devuelve formateada
+    // Detecta si es fecha y devuelve formateada
     displayValue(value) {
       if (this.isDate(value)) {
         return this.formatDate(new Date(value));
